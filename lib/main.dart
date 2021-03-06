@@ -93,7 +93,7 @@ class _CalculatorState extends State<Calculator> {
                                     text: '%',
                                     fillColor: 0xFFFFFFFF,
                                     textColor: 0xFF65BDAC,
-                                    callback: _numClick,
+                                    callback: _fromPercent,
                                 ),
                                 CalcButton(
                                     text: '/',
@@ -212,9 +212,35 @@ class _CalculatorState extends State<Calculator> {
     }
 
     void _solve(String input) {
+
+        String res = Calc.execute(_input);
+        num t = num.parse(res);
+
+        //check if the result is an int
+        if(t == t.floor()) {
+            t = t.floor();
+        }
+        
         setState(() {
             _history = _input;
-            _input = Calc.execute(_input);
+            _input = t.toString();
+        });
+    }
+
+    void _fromPercent(String input) {
+
+        String res = Calc.execute(_input);
+        num t = num.parse(res);
+        t /= 100;
+
+        //check if the result is an int
+        if(t == t.floor()) {
+            t = t.floor();
+        }
+
+        setState(() {
+            _history = '$_input $input';
+            _input = t.toString();
         });
     }
 
